@@ -9,6 +9,8 @@ import android.widget.Toast
 
 class LanguageRecycleAdapter(private val languageList: MutableList<String>): RecyclerView.Adapter<LanguageViewHolder>() {
 
+//    lateinit var listener: LanguageViewHolder.CustomClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.language_item_layout, parent, false)
@@ -24,6 +26,9 @@ class LanguageRecycleAdapter(private val languageList: MutableList<String>): Rec
         holder.orderNumber.text = position.toString()
         holder.languageName.text = languageList[position]
         holder.itemView.setOnClickListener(holder)
+//        holder.itemView.setOnClickListener{
+//            listener.onItemClicked(it, position)
+//        }
     }
 }
 
@@ -34,4 +39,8 @@ class LanguageViewHolder(v: View): RecyclerView.ViewHolder(v), View.OnClickListe
     override fun onClick(p0: View?) {
         Toast.makeText(p0?.context, "${languageName.text}", Toast.LENGTH_SHORT).show()
     }
+
+//    interface CustomClickListener {
+//        fun onItemClicked(view: View, index: Int)
+//    }
 }

@@ -12,6 +12,6 @@ class LanguageViewModel: ViewModel() {
     fun addLanguage(name: String) {
         languageList.add(name)
         languagesLiveData.value = languageList
-//        println(languagesLiveData.value?.joinToString())
+//        println(languagesLiveData.value?.size)
     }
 }

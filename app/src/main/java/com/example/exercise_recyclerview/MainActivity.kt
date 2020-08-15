@@ -12,17 +12,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     val languageViewModel: LanguageViewModel by viewModels()
+    lateinit var languageRecycleAdapter: LanguageRecycleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         language_recycleview.layoutManager = LinearLayoutManager(this)
+        languageRecycleAdapter = LanguageRecycleAdapter(languageViewModel.languagesLiveData.value!!)
+        language_recycleview.adapter = languageRecycleAdapter
 
         languageViewModel
             .languagesLiveData
             .observe(this, Observer {
-                language_recycleview.adapter = LanguageRecycleAdapter(it)
+//                println(it.joinToString())
+                languageRecycleAdapter.notifyDataSetChanged()
             })
     }
 
