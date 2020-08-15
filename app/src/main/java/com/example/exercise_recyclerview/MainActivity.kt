@@ -3,26 +3,31 @@ package com.example.exercise_recyclerview
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.exercise_recyclerview.language.viewmodel.LanguageViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var languageList = mutableListOf<String>("Java", "Python", "C", "C++", "C#", "Objective C", "Golang", "Cobol", "Assembly", "Javascript", "Dart", "Swift")
-    lateinit var languageRecycleAdapter: LanguageRecycleAdapter
+    val languageViewModel: LanguageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         language_recycleview.layoutManager = LinearLayoutManager(this)
-        languageRecycleAdapter = LanguageRecycleAdapter(languageList)
-        language_recycleview.adapter = languageRecycleAdapter
+
+        languageViewModel
+            .languagesLiveData
+            .observe(this, Observer {
+                language_recycleview.adapter = LanguageRecycleAdapter(it)
+            })
     }
 
     fun addLanguage(view: View) {
         val languageName: String = language_name_input.text.toString()
-        languageList.add(languageName)
-        language_recycleview.adapter?.notifyDataSetChanged()
+        languageViewModel.addLanguage(languageName)
     }
 }
