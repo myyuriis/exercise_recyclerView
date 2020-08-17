@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import kotlinx.android.synthetic.main.language_item_layout.view.*
 
 class LanguageRecycleAdapter(private val languageList: MutableList<String>): RecyclerView.Adapter<LanguageViewHolder>() {
 
-//    lateinit var listener: LanguageViewHolder.CustomClickListener
+    lateinit var listener: CustomClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -22,25 +22,26 @@ class LanguageRecycleAdapter(private val languageList: MutableList<String>): Rec
     }
 
     override fun onBindViewHolder(holder: LanguageViewHolder, position: Int) {
-        println("$position ${languageList[position]}")
-        holder.orderNumber.text = position.toString()
+        holder.orderNumber.text = (position + 1).toString()
         holder.languageName.text = languageList[position]
-        holder.itemView.setOnClickListener(holder)
-//        holder.itemView.setOnClickListener{
-//            listener.onItemClicked(it, position)
-//        }
+
+        holder.itemView.setOnClickListener {
+            listener.onItemClicked(it, languageList[position])
+        }
+
+        holder.itemView.delete_button.setOnClickListener {
+            listener.onItemClicked(it, position, languageList[position])
+        }
     }
 }
 
-class LanguageViewHolder(v: View): RecyclerView.ViewHolder(v), View.OnClickListener {
+class LanguageViewHolder(v: View): RecyclerView.ViewHolder(v) {
     val orderNumber: TextView = v.findViewById<TextView>(R.id.order_number)
     val languageName: TextView = v.findViewById<TextView>(R.id.language_name)
 
-    override fun onClick(p0: View?) {
-        Toast.makeText(p0?.context, "${languageName.text}", Toast.LENGTH_SHORT).show()
-    }
+}
 
-//    interface CustomClickListener {
-//        fun onItemClicked(view: View, index: Int)
-//    }
+interface CustomClickListener {
+    fun onItemClicked(view: View, language: String)
+    fun onItemClicked(view: View, index: Int, language: String)
 }

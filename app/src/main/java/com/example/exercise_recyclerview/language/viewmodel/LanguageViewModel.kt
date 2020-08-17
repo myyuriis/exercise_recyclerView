@@ -5,13 +5,17 @@ import androidx.lifecycle.ViewModel
 
 class LanguageViewModel: ViewModel() {
 
-    val languageList = mutableListOf<String>("Java", "Python")
+    val languageList = mutableListOf<String>("Java", "Python", "Go", "Javascript")
 
     val languagesLiveData: MutableLiveData<MutableList<String>> = MutableLiveData(languageList)
 
     fun addLanguage(name: String) {
         languageList.add(name)
         languagesLiveData.value = languageList
-//        println(languagesLiveData.value?.size)
+    }
+
+    fun removeLanguage(position: Int) {
+        languageList.removeAt(position)
+        languagesLiveData.value = languageList
     }
 }
